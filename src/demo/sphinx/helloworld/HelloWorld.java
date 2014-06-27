@@ -76,21 +76,28 @@ public class HelloWorld {
             if (args.length > 0) {
             	System.out.println("HelloWorld::main() - Using input url");
                 url = new File(args[0]).toURI().toURL();
-            } else {
+            } 
+            else {
             	System.out.println("HelloWorld::main() - using local file");
                 url = HelloWorld.class.getResource("helloworld.config.xml");
+                //url = new File("helloworld.config.xml").toURI().toURL();
             }
 
             System.out.println("Loading...");
 
-            ConfigurationManager cm = new ConfigurationManager(url);
+            ConfigurationManager cm = new ConfigurationManager(url); 
+            System.out.println("HelloWorld::main() - ConfigurationManager cm has initialized");
 
-	    Recognizer recognizer = (Recognizer) cm.lookup("recognizer");
-	    Microphone microphone = (Microphone) cm.lookup("microphone");
+            Recognizer recognizer = (Recognizer) cm.lookup("recognizer");
+	        System.out.println("HelloWorld::main() - Recognizer recognizer has initialized");
+            
+	        Microphone microphone = (Microphone) cm.lookup("microphone");
+	        System.out.println("HelloWorld::main() - Microphone microphone has initialized");
 
 
             /* allocate the resource necessary for the recognizer */
             recognizer.allocate();
+            System.out.println("HelloWorld::main() - recognizer.allocate() completed");
 
             /* the microphone will keep recording until the program exits */
 	    if (microphone.startRecording()) {
