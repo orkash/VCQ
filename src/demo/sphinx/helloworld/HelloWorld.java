@@ -30,6 +30,43 @@ import java.net.URL;
  */
 public class HelloWorld {
 
+	public static void AnalyzeCommand(String inString)
+	{
+		System.out.println("HelloWorld::AnalyzeCommand() - input: "+ inString);
+		
+		String trimString = inString.trim(); 
+		if (trimString.isEmpty()){
+			//System.out.println("HelloWorld::AnalyzeCommand() - Empty String");
+			return;
+		}
+		
+		String[] wordList = trimString.split("\\s+");
+		if(wordList.length != 3){
+			System.out.println("\tHelloWorld::AnalyzeCommand() - wordList.length != 3");
+			return;
+		}
+		
+		if(wordList[1].equals("shoot")){
+			if( wordList[2].equals("philip") || wordList[2].equals("rita") || wordList[2].equals("john") ){
+				System.out.println("\t"+wordList[0] + "'s Quadcopter shot " + wordList[2]);
+			}
+			return;
+		}
+		else if(wordList[1].equals("go")){
+			if( wordList[2].equals("up") ){
+				System.out.println("\t"+wordList[0] + "'s Quadcopter flying high");	
+			}
+			if( wordList[2].equals("down") ){
+				System.out.println("\t"+wordList[0] + "'s Quadcopter flying low");	
+			}		
+			return;
+		}
+		else{
+			System.out.println("\t"+"HelloWorld::AnalyzeCommand() - wordList[1] == " + wordList[1]);
+			return;
+		}
+	}
+	
     /**
      * Main method for running the HelloWorld demo.
      */
@@ -59,12 +96,11 @@ public class HelloWorld {
 	    if (microphone.startRecording()) {
 
 		System.out.println
-		    ("Say: (Shoot | Up | Down) " +
-                     "( Rita | Philip )");
+		    ("Say: ( Rita | Philip | John ) Shoot ( Rita | Philip | John ) " +
+                     "\n OR ( Rita | Philip | John ) Go ( Up | Down )");
 
 		while (true) {
-		    System.out.println
-			("Start speaking. Press Ctrl-C to quit.\n");
+		    //System.out.println("Start speaking.\n");
 
                     /*
                      * This method will return when the end of speech
@@ -75,7 +111,8 @@ public class HelloWorld {
 		    
 		    if (result != null) {
 			String resultText = result.getBestFinalResultNoFiller();
-			System.out.println("You said: " + resultText + "\n");
+			//System.out.println("You said: " + resultText + "\n");
+			AnalyzeCommand(resultText);
 		    } else {
 			System.out.println("I can't hear what you said.\n");
 		    }

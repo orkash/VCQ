@@ -6,4 +6,4 @@
 
 grammar hello;
 
-public <greet> = ( Shoot | Up | Down ) ( Rita | Philip ) ;
+public <greet> = ( Rita | Philip | John ) ( Shoot | Go ) ( Rita | Philip | John | Up | Down ) ;
