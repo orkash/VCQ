@@ -79,8 +79,8 @@ public class HelloWorld {
             } 
             else {
             	System.out.println("HelloWorld::main() - using local file");
-                url = HelloWorld.class.getResource("helloworld.config.xml");
-                //url = new File("helloworld.config.xml").toURI().toURL();
+                //url = HelloWorld.class.getResource("helloworld.config.xml");
+                url = new File("Config\\helloworld.config.xml").toURI().toURL();
             }
 
             System.out.println("Loading...");
