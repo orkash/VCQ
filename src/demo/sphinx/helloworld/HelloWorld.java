@@ -32,43 +32,59 @@ public class HelloWorld {
 
 	public static void AnalyzeCommand(String inString)
 	{
-		System.out.println("HelloWorld::AnalyzeCommand() - input: "+ inString);
+		System.out.println("the system heard you say: \n\t"+ inString);
 		
 		String trimString = inString.trim(); 
 		if (trimString.isEmpty()){
-			//System.out.println("HelloWorld::AnalyzeCommand() - Empty String");
+			//System.out.println("AnalyzeCommand() - inString is empty");
 			return;
 		}
 		
 		String[] wordList = trimString.split("\\s+");
-		if(wordList.length != 3){
-			System.out.println("\tHelloWorld::AnalyzeCommand() - wordList.length != 3");
+		if(wordList.length != 2){
+			System.out.println("\tAnalyzeCommand() - wordList.length != 2");
 			return;
 		}
-		
-		if(wordList[1].equals("shoot")){
-			if( wordList[2].equals("philip") || wordList[2].equals("rita") || wordList[2].equals("john") ){
-				System.out.println("\t"+wordList[0] + "'s Quadcopter shot " + wordList[2]);
+	
+		if(wordList[0].equals("fly")){
+			if(wordList[1].equals("up")){
+				System.out.println("\tKfir's Quadcopter flying high");
 			}
-			return;
+			else if(wordList[1].equals("down")){
+				System.out.println("\tKfir's Quadcopter flying low");
+			}
+			else if(wordList[1].equals("forward")){
+				System.out.println("\tKfir's Quadcopter goes toward target");
+			}
+			else if(wordList[1].equals("backward")){
+				System.out.println("\tKfir's Quadcopter retreats");
+			}
 		}
-		else if(wordList[1].equals("go")){
-			if( wordList[2].equals("up") ){
-				System.out.println("\t"+wordList[0] + "'s Quadcopter flying high");	
+		else if(wordList[0].equals("turn")){
+			if(wordList[1].equals("left")){
+				System.out.println("\tKfir's Quadcopter locked on the target to the left");
 			}
-			if( wordList[2].equals("down") ){
-				System.out.println("\t"+wordList[0] + "'s Quadcopter flying low");	
-			}		
-			return;
+			else if(wordList[1].equals("right")){
+				System.out.println("\tKfir's Quadcopter locked on the target to the right");
+			}
+		}
+		else if (wordList[0].equals("fire")){
+			if(wordList[1].equals("missile")){
+				System.out.println("\tTarget destroyed");
+			}
+			else if(wordList[1].equals("bullets")){
+				System.out.println("\tTarget neutralized");
+			}
 		}
 		else{
-			System.out.println("\t"+"HelloWorld::AnalyzeCommand() - wordList[1] == " + wordList[1]);
+			System.out.println("\tCan't execute command: " + inString);
 			return;
 		}
 	}
 	
     /**
      * Main method for running the HelloWorld demo.
+     * 
      */
     public static void main(String[] args) {
         try {
@@ -103,8 +119,9 @@ public class HelloWorld {
 	    if (microphone.startRecording()) {
 
 		System.out.println
-		    ("Say: ( Rita | Philip | John ) Shoot ( Rita | Philip | John ) " +
-                     "\n OR ( Rita | Philip | John ) Go ( Up | Down )");
+		    ("Say:\t ( fly ) ( up | down | forward | backward ) " +
+                     "\n\t OR ( turn ) ( left | right ) " + 
+                     "\n\t OR ( fire ) ( missile | bullets )");
 
 		while (true) {
 		    //System.out.println("Start speaking.\n");
@@ -114,7 +131,8 @@ public class HelloWorld {
                      * is reached. Note that the endpointer will determine
                      * the end of speech.
                      */ 
-		    Result result = recognizer.recognize();
+			System.out.print("Waiting for a voice command: ");
+			Result result = recognizer.recognize();
 		    
 		    if (result != null) {
 			String resultText = result.getBestFinalResultNoFiller();
