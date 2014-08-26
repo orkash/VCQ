@@ -2,7 +2,7 @@
 
 /* Copyright 1999-2004 Carnegie Mellon University. See the file "license.terms" for information on usage */
 
-package demo.sphinx.helloworld;
+package vcm_main;
 
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.recognizer.Recognizer;
