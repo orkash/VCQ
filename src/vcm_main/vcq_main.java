@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 
 // This application uses the Sphinx-4 endpointer which automatically segments incoming audio into utterances and silences
-public class HelloWorld 
+public class vcq_main 
 {
 	public static void HandleIncomingCommand(String inString)
 	{
