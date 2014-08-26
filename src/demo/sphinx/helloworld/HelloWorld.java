@@ -49,37 +49,43 @@ public class HelloWorld {
 		if(wordList[0].equals("fly")){
 			if(wordList[1].equals("up")){
 				System.out.println("\tKfir's Quadcopter flying high");
+				return;
 			}
 			else if(wordList[1].equals("down")){
 				System.out.println("\tKfir's Quadcopter flying low");
+				return;
 			}
 			else if(wordList[1].equals("forward")){
 				System.out.println("\tKfir's Quadcopter goes toward target");
+				return;
 			}
 			else if(wordList[1].equals("backward")){
 				System.out.println("\tKfir's Quadcopter retreats");
+				return;
 			}
 		}
 		else if(wordList[0].equals("turn")){
 			if(wordList[1].equals("left")){
 				System.out.println("\tKfir's Quadcopter locked on the target to the left");
+				return;
 			}
 			else if(wordList[1].equals("right")){
 				System.out.println("\tKfir's Quadcopter locked on the target to the right");
+				return;
 			}
 		}
 		else if (wordList[0].equals("fire")){
 			if(wordList[1].equals("missile")){
 				System.out.println("\tTarget destroyed");
+				return;
 			}
 			else if(wordList[1].equals("bullets")){
 				System.out.println("\tTarget neutralized");
+				return;
 			}
 		}
-		else{
-			System.out.println("\tCan't execute command: " + inString);
-			return;
-		}
+		
+		System.out.println("\tCan't execute command: " + inString);	
 	}
 	
     /**
