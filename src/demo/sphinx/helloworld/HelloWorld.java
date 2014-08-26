@@ -28,8 +28,8 @@ import java.net.URL;
  * built using Sphinx-4. This application uses the Sphinx-4 endpointer,
  * which automatically segments incoming audio into utterances and silences.
  */
-public class HelloWorld {
-
+public class HelloWorld 
+{
 	public static void AnalyzeCommand(String inString)
 	{
 		System.out.println("the system heard you say: \n\t"+ inString);
@@ -88,20 +88,19 @@ public class HelloWorld {
 		System.out.println("\tCan't execute command: " + inString);	
 	}
 	
-    /**
-     * Main method for running the HelloWorld demo.
-     * 
-     */
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args) 
+    {
+        try 
+        {
             URL url;
-            if (args.length > 0) {
+            if (args.length > 0) 
+            {
             	System.out.println("HelloWorld::main() - Using input url");
                 url = new File(args[0]).toURI().toURL();
             } 
-            else {
+            else 
+            {
             	System.out.println("HelloWorld::main() - using local file");
-                //url = HelloWorld.class.getResource("helloworld.config.xml");
                 url = new File("Config\\helloworld.config.xml").toURI().toURL();
             }
 
@@ -109,7 +108,7 @@ public class HelloWorld {
 
             ConfigurationManager cm = new ConfigurationManager(url); 
             System.out.println("HelloWorld::main() - ConfigurationManager cm has initialized");
-
+          
             Recognizer recognizer = (Recognizer) cm.lookup("recognizer");
 	        System.out.println("HelloWorld::main() - Recognizer recognizer has initialized");
             
@@ -122,44 +121,51 @@ public class HelloWorld {
             System.out.println("HelloWorld::main() - recognizer.allocate() completed");
 
             /* the microphone will keep recording until the program exits */
-	    if (microphone.startRecording()) {
-
-		System.out.println
-		    ("Say:\t ( fly ) ( up | down | forward | backward ) " +
-                     "\n\t OR ( turn ) ( left | right ) " + 
-                     "\n\t OR ( fire ) ( missile | bullets )");
-
-		while (true) {
-		    //System.out.println("Start speaking.\n");
-
+		    if (microphone.startRecording()) 
+		    {
+				System.out.println
+				    ("Say:\t ( fly ) ( up | down | forward | backward ) " +
+		                     "\n\t OR ( turn ) ( left | right ) " + 
+		                     "\n\t OR ( fire ) ( missile | bullets )");
+		
+				while (true) 
+				{
+					System.out.print("Waiting for a voice command: ");
                     /*
-                     * This method will return when the end of speech
-                     * is reached. Note that the endpointer will determine
-                     * the end of speech.
-                     */ 
-			System.out.print("Waiting for a voice command: ");
-			Result result = recognizer.recognize();
-		    
-		    if (result != null) {
-			String resultText = result.getBestFinalResultNoFiller();
-			//System.out.println("You said: " + resultText + "\n");
-			AnalyzeCommand(resultText);
-		    } else {
-			System.out.println("I can't hear what you said.\n");
+                      This method will return when the end of speech
+                      is reached. Note that the endpointer will determine
+                      the end of speech.
+                    */ 
+					Result result = recognizer.recognize();
+				    
+				    if (result != null) {
+					String resultText = result.getBestFinalResultNoFiller();
+					//System.out.println("You said: " + resultText + "\n");
+					AnalyzeCommand(resultText);
+				    } else {
+					System.out.println("I can't hear what you said.\n");
+				    }
+				}
+		    } 
+		    else
+		    {
+				System.out.println("Cannot start microphone.");
+				recognizer.deallocate();
+				System.exit(1);
 		    }
-		}
-	    } else {
-		System.out.println("Cannot start microphone.");
-		recognizer.deallocate();
-		System.exit(1);
-	    }
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             System.err.println("Problem when loading HelloWorld: " + e);
             e.printStackTrace();
-        } catch (PropertyException e) {
+        } 
+        catch (PropertyException e) 
+        {
             System.err.println("Problem configuring HelloWorld: " + e);
             e.printStackTrace();
-        } catch (InstantiationException e) {
+        } 
+        catch (InstantiationException e) 
+        {
             System.err.println("Problem creating HelloWorld: " + e);
             e.printStackTrace();
         }
