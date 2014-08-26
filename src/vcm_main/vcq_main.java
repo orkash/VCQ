@@ -17,6 +17,15 @@ import java.net.URL;
 // This application uses the Sphinx-4 endpointer which automatically segments incoming audio into utterances and silences
 public class vcq_main 
 {
+	static long m_Localtimer;
+	static void tik()
+	{
+		m_Localtimer = System.nanoTime();
+	}
+	static long tak()
+	{
+		return (System.nanoTime() - m_Localtimer)/100000;  //divide by 1000000 to get milliseconds. 
+	}
 	public static void HandleIncomingCommand(String inString)
 	{
 		String trimString = inString.trim(); 
@@ -69,28 +78,24 @@ public class vcq_main
 				return;
 			}
 		}
-		
 		System.out.println("\tCan't execute command: " + inString);	
 	}
 	public static void printGrammar()
 	{
-		System.out.println("Say:\t ( fly ) ( up | down | forward | backward ) " + 
+		System.out.println("Grammar:    ( fly ) ( up | down | forward | backward ) " + 
 						  "\n\t OR ( turn ) ( left | right ) " + 
 						  "\n\t OR ( fire ) ( missile | bullets )");
 	}
 	public static void Go2Sleep(long sleepTime_millsec )
 	{
-			try 
-			{
-				Thread.sleep(sleepTime_millsec);
-			}
-			catch (InterruptedException e)	
-			{
-				e.printStackTrace();
-			}	
+			try	{
+				Thread.sleep(sleepTime_millsec);}
+			catch (InterruptedException e){
+				e.printStackTrace();}	
 	}
 	
-    public static void main(String[] args) 
+	
+	public static void main(String[] args) 
     {
         try 
         {            
@@ -109,7 +114,10 @@ public class vcq_main
 				System.err.println("microphone.startRecording() failed!");
 				return;
 			}
+			System.out.println("start recording");
 			
+			// microphone.clear(); // Clears all cached audio data
+
 			while (true) 
 			{
 				System.out.println("Waiting for a voice command");   
