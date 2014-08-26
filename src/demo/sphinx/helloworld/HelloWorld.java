@@ -17,7 +17,7 @@ import java.net.URL;
 // This application uses the Sphinx-4 endpointer which automatically segments incoming audio into utterances and silences
 public class HelloWorld 
 {
-	public static void  HandleIncomingCommand(String inString)
+	public static void HandleIncomingCommand(String inString)
 	{
 		String trimString = inString.trim(); 
 		if (trimString.isEmpty()){
@@ -96,7 +96,7 @@ public class HelloWorld
         {            
             // Initialization 
         	System.out.println("Loading...");
-            URL url = new File("Config\\helloworld.config.xml").toURI().toURL();           
+            URL url = new File("Config\\VCQ.config.xml").toURI().toURL();           
             ConfigurationManager cm = new ConfigurationManager(url);			System.out.println("ConfigurationManager cm has initialized");
             Recognizer recognizer = (Recognizer) cm.lookup("recognizer");   	System.out.println("Recognizer recognizer has initialized");         
 	        Microphone microphone = (Microphone) cm.lookup("microphone");   	System.out.println("Microphone microphone has initialized");

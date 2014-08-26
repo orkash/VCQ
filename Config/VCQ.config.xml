@@ -100,7 +100,7 @@
         <property name="dictionary" value="dictionary"/>
         <property name="grammarLocation" 
              value="Grammar/"/>
-        <property name="grammarName" value="hello"/>
+        <property name="grammarName" value="VCQ"/>
 	<property name="logMath" value="logMath"/>
     </component>
     
