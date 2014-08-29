@@ -93,7 +93,27 @@ public class vcq_main
 			catch (InterruptedException e){
 				e.printStackTrace();}	
 	}
-	
+	public static boolean StartRecording(Microphone mic)
+	{
+		System.out.print("Opening mic in order to start recording - ");
+		if(mic.startRecording())
+		{
+			System.out.println("Recording started!");
+			return true;
+		}
+		else
+		{
+			System.out.println("Failed!");
+			return false;
+		}
+			
+	}
+	public static void StopRecording(Microphone mic)
+	{
+		System.out.print("closing mic in order to stop recording - ");
+		mic.stopRecording();
+		System.out.println("Recording stoped!");
+	}
 	
 	public static void main(String[] args) 
     {
@@ -105,19 +125,16 @@ public class vcq_main
             ConfigurationManager cm = new ConfigurationManager(url);			System.out.println("ConfigurationManager cm has initialized");
             Recognizer recognizer = (Recognizer) cm.lookup("recognizer");   	System.out.println("Recognizer recognizer has initialized");         
 	        Microphone microphone = (Microphone) cm.lookup("microphone");   	System.out.println("Microphone microphone has initialized");
-            recognizer.allocate();	         									System.out.println("recognizer necessary resources allocated");         
-            printGrammar();
+            recognizer.allocate();	         									System.out.println("recognizer necessary resources allocated");
 				
 			/* the microphone will keep recording until the program exits */
-			if (!microphone.startRecording())
-			{
-				System.err.println("microphone.startRecording() failed!");
+			if (!StartRecording(microphone)){
 				return;
 			}
-			System.out.println("start recording");
-			
+
 			// microphone.clear(); // Clears all cached audio data
 
+			printGrammar();
 			while (true) 
 			{
 				System.out.println("Waiting for a voice command");   
