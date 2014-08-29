@@ -26,59 +26,25 @@ public class vcq_main
 	{
 		return (System.nanoTime() - m_Localtimer)/100000;  //divide by 1000000 to get milliseconds. 
 	}
-	public static void HandleIncomingCommand(String inString)
-	{
-		String trimString = inString.trim(); 
-		if (trimString.isEmpty()){
-			System.out.println("AnalyzeCommand() - inString is empty");
-			return;
-		}
-		
-		String[] wordList = trimString.split("\\s+");
-		if(wordList.length != 2){
-			System.out.println("\tAnalyzeCommand() - wordList.length != 2");
-			return;
-		}
+	public static boolean HandleIncomingCommand(String inString)
+	{	
+		String trimString = inString.trim(); 			// leading and trailing whitespace omitted		
+		if (trimString.isEmpty()){ return false; } 		// do nothing if trimString is empty !	
+		String[] wordList = trimString.split("\\s+");	// split to words
+		if(wordList.length != 2){ return false; }		// do nothing if not exactly 2 words
 	
-		if(wordList[0].equals("fly")){
+		if(wordList[0].equals("fly"))
+		{
 			if(wordList[1].equals("up")){
-				System.out.println("\tKfir's Quadcopter flying high");
-				return;
+				// Handle fly up command
+				return true;
 			}
 			else if(wordList[1].equals("down")){
-				System.out.println("\tKfir's Quadcopter flying low");
-				return;
-			}
-			else if(wordList[1].equals("forward")){
-				System.out.println("\tKfir's Quadcopter goes toward target");
-				return;
-			}
-			else if(wordList[1].equals("backward")){
-				System.out.println("\tKfir's Quadcopter retreats");
-				return;
+				// Handle Fly Down command
+				return true;
 			}
 		}
-		else if(wordList[0].equals("turn")){
-			if(wordList[1].equals("left")){
-				System.out.println("\tKfir's Quadcopter locked on the target to the left");
-				return;
-			}
-			else if(wordList[1].equals("right")){
-				System.out.println("\tKfir's Quadcopter locked on the target to the right");
-				return;
-			}
-		}
-		else if (wordList[0].equals("fire")){
-			if(wordList[1].equals("missile")){
-				System.out.println("\tTarget destroyed");
-				return;
-			}
-			else if(wordList[1].equals("bullets")){
-				System.out.println("\tTarget neutralized");
-				return;
-			}
-		}
-		System.out.println("\tCan't execute command: " + inString);	
+		return false;
 	}
 	public static void printGrammar()
 	{
@@ -120,7 +86,7 @@ public class vcq_main
         try 
         {            
             // Initialization 
-        	System.out.println("Loading...");
+        	System.out.println("Version 1.0.42");
             URL url = new File("Config\\VCQ.config.xml").toURI().toURL();           
             ConfigurationManager cm = new ConfigurationManager(url);			System.out.println("ConfigurationManager cm has initialized");
             Recognizer recognizer = (Recognizer) cm.lookup("recognizer");   	System.out.println("Recognizer recognizer has initialized");         
@@ -131,13 +97,13 @@ public class vcq_main
 			if (!StartRecording(microphone)){
 				return;
 			}
-
-			// microphone.clear(); // Clears all cached audio data
-
+			
 			printGrammar();
+			
 			while (true) 
 			{
-				System.out.println("Waiting for a voice command");   
+				System.out.println("Waiting for a voice command");
+				microphone.clear(); // Clears all cached audio data
 				Result result = recognizer.recognize(); // return when the end of speech is reached. (endpointer will determine the end of speech)
         
 			    if (result != null) 
