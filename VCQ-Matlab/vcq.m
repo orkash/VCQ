@@ -12,6 +12,12 @@ javaclasspath -dynamic      % show java dynamic class paths
 currentWorkingDir = pwd;
 vcm_main.vcq_main.main(currentWorkingDir);
 
+i = 5;
+while true
+   fprintf('zkk %i\n',i);
+   pause(3);
+end
+
 % Clear variables from memory 
 clearvars;
 
