@@ -31,9 +31,9 @@ public class vcq_main
 	public static boolean HandleIncomingCommand(String inString)
 	{	
 		String trimString = inString.trim(); 			// leading and trailing whitespace omitted		
-		if (trimString.isEmpty()){ return false; } 		// do nothing if trimString is empty !	
+		if (trimString.isEmpty()){ return true; } 		// do nothing if trimString is empty !	
 		String[] wordList = trimString.split("\\s+");	// split to words
-		if(wordList.length != 2){ return false; }		// do nothing if not exactly 2 words
+		if(wordList.length != 2){ return true; }		// do nothing if not exactly 2 words
 	
 		if(wordList[0].equals("fly"))
 		{
@@ -46,7 +46,11 @@ public class vcq_main
 				return true;
 			}
 		}
-		return false;
+		if(wordList[0].equals("turn") && wordList[1].equals("off"))
+		{
+			return false;
+		}
+		return true;
 	}
 	public static void printGrammar()
 	{
@@ -87,7 +91,7 @@ public class vcq_main
     {
         try 
         {   
-        	System.out.println("Version 1.4.46");
+        	System.out.println("Version 1.4.47");
         	
         	// Check how many arguments were passed in
         	String CurrentWorkingDir = "";
@@ -130,13 +134,19 @@ public class vcq_main
 			    	System.out.print("\t the system heard you say: \t ");
 					String resultText = result.getBestFinalResultNoFiller();
 					System.out.println(resultText);
-					//HandleIncomingCommand(resultText);
+					if(!HandleIncomingCommand(resultText))
+					{
+						break;
+					}
 			    } 
 			    else 
 			    {
 			    	System.out.println("I can't hear what you said.\n");
 			    }
 			}
+			StopRecording(microphone);
+			recognizer.deallocate();
+			System.out.println("Bye Bye.\n");	
         } 
         catch (IOException e){
             System.err.println("Problem when loading HelloWorld: " + e);

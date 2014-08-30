@@ -6,4 +6,4 @@
 
 grammar hello;
 
-public <greet> = ( fly | turn | fire ) ( up | down | forward | backward | left | right | missile | bullets ) ;
+public <greet> = ( fly | turn | fire ) ( up | down | forward | backward | left | right | missile | bullets | off ) ;
