@@ -17,6 +17,8 @@ import java.net.URL;
 // This application uses the Sphinx-4 endpointer which automatically segments incoming audio into utterances and silences
 public class vcq_main 
 {
+	public vcq_main(){}
+	
 	static long m_Localtimer;
 	static void tik()
 	{
@@ -84,10 +86,27 @@ public class vcq_main
 	public static void main(String[] args) 
     {
         try 
-        {            
-            // Initialization 
-        	System.out.println("Version 1.0.42");
-            URL url = new File("Config\\VCQ.config.xml").toURI().toURL();           
+        {   
+        	System.out.println("Version 1.4.46");
+        	
+        	// Check how many arguments were passed in
+        	String CurrentWorkingDir = "";
+            if(args.length == 0)
+            {
+            	CurrentWorkingDir = "Config\\VCQ.config.xml"; 
+            }
+            else if(args.length == 1)
+            {
+            	CurrentWorkingDir = args[0] + "\\Config\\VCQ.config.xml";
+            } 
+            else
+            {
+                System.out.println("Proper Usage is: java program filename [working dir]");
+                System.exit(0);
+            }       	
+        	
+            // Initialization         	
+            URL url = new File(CurrentWorkingDir).toURI().toURL();           
             ConfigurationManager cm = new ConfigurationManager(url);			System.out.println("ConfigurationManager cm has initialized");
             Recognizer recognizer = (Recognizer) cm.lookup("recognizer");   	System.out.println("Recognizer recognizer has initialized");         
 	        Microphone microphone = (Microphone) cm.lookup("microphone");   	System.out.println("Microphone microphone has initialized");
