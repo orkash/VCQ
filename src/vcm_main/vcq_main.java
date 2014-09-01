@@ -10,9 +10,10 @@ import vcm_main.VoiceRecognizer.VR_WorkMode;
 // This application uses the Sphinx-4 endpointer which automatically segments incoming audio into utterances and silences
 public class vcq_main 
 {
+	static Runnable vr;
 	public static void main(String[] args) 
     {  
-        	System.out.println("Version 1.4.67");
+        	System.out.println("Version 1.4.78");
         	
         	VR_WorkMode workMode = VR_WorkMode.PRINT;
         	String currentWorkingDir = "";
@@ -34,9 +35,14 @@ public class vcq_main
                 System.exit(0);
             }
                   
-            Runnable vr = new VoiceRecognizer(workMode);
+            vr = new VoiceRecognizer(workMode);
             ((VoiceRecognizer)vr).Init(currentWorkingDir);          
             Thread thread = new Thread(vr);
             thread.start();            
     }
+	
+	public int GetLastCommand()
+	{
+		return ((VoiceRecognizer)vr).GetLastVoiceCommand();
+	}
 }
