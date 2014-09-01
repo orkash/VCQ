@@ -5,40 +5,36 @@
 package vcm_main;
 
 import vcm_main.VoiceRecognizer;
+import vcm_main.VoiceRecognizer.VR_WorkMode;
 
 // This application uses the Sphinx-4 endpointer which automatically segments incoming audio into utterances and silences
 public class vcq_main 
 {
-	public static void Go2Sleep(long sleepTime_millsec)
-	{
-			try	{
-				Thread.sleep(sleepTime_millsec);}
-			catch (InterruptedException e){
-				e.printStackTrace();}	
-	}
-
 	public static void main(String[] args) 
     {  
-        	System.out.println("Version 1.4.51");
+        	System.out.println("Version 1.4.67");
+        	
+        	VR_WorkMode workMode = VR_WorkMode.PRINT;
+        	String currentWorkingDir = "";
         	
         	// Check how many arguments were passed in
-        	String currentWorkingDir = "";
-            if(args.length == 0)
+        	if(args.length == 0)
             {
-            	currentWorkingDir = "Config\\VCQ.config.xml"; 
+            	currentWorkingDir = "Config\\VCQ.config.xml";
+            	workMode = VR_WorkMode.PRINT;
             }
             else if(args.length == 1)
             {
             	currentWorkingDir = args[0] + "\\Config\\VCQ.config.xml";
+            	workMode = VR_WorkMode.PULL_AND_PRINT;
             } 
             else
             {
                 System.out.println("Proper Usage is: java program filename [working dir]");
                 System.exit(0);
             }
-            
-            
-            Runnable vr = new VoiceRecognizer();
+                  
+            Runnable vr = new VoiceRecognizer(workMode);
             ((VoiceRecognizer)vr).Init(currentWorkingDir);          
             Thread thread = new Thread(vr);
             thread.start();            

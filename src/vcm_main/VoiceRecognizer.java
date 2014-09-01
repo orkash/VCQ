@@ -12,10 +12,16 @@ import java.net.URL;
 
 public class VoiceRecognizer implements Runnable
 {
+	public enum VR_WorkMode
+	{
+	    PRINT,PULL,PULL_AND_PRINT 
+	}
+	
 	// Public methods
-	public VoiceRecognizer()
+	public VoiceRecognizer(VR_WorkMode workMode)
 	{
 		m_initialized = false;
+		m_workMode = workMode; 
 	}
 	public void Init(String CurrentWorkingDir)
 	{
@@ -54,16 +60,25 @@ public class VoiceRecognizer implements Runnable
 		{
 			while (true) 
 			{
-				System.out.println("Waiting for a voice command");
+				if(VR_WorkMode.PRINT == m_workMode || VR_WorkMode.PULL_AND_PRINT == m_workMode)
+				{
+					System.out.println("Waiting for a voice command");
+				}
+				
 				m_microphone.clear(); // Clears all cached audio data
 				Result result = m_recognizer.recognize(); // return when the end of speech is reached. (endpointer will determine the end of speech)
         
 			    if (result != null) 
 			    {
-			    	System.out.print("\t the system heard you say: \t ");
-					String resultText = result.getBestFinalResultNoFiller();
-					System.out.println(resultText);
-					if(!HandleIncomingCommand(resultText))
+			    	String resultText = result.getBestFinalResultNoFiller();
+			    	
+			    	if(VR_WorkMode.PRINT == m_workMode || VR_WorkMode.PULL_AND_PRINT == m_workMode)
+			    	{
+			    		System.out.print("\t the system heard you say: \t ");
+			    		System.out.println(resultText);
+			    	}
+					
+			    	if(!HandleIncomingCommand(resultText))
 					{
 						break;
 					}
@@ -81,6 +96,10 @@ public class VoiceRecognizer implements Runnable
 		{
 			System.out.println("Run Init() first");
 		}
+	}
+	public int GetLastVoiceCommand()
+	{
+		return m_lastCommand;
 	}
 	
 	// Private methods	
@@ -140,5 +159,7 @@ public class VoiceRecognizer implements Runnable
 	private Recognizer m_recognizer;
 	private Microphone m_microphone; 
 	private boolean m_initialized;
+	private VR_WorkMode m_workMode;
+	private int m_lastCommand; 
 
 }
