@@ -37,7 +37,7 @@ public class MySignal
 			m_wasSignalled = false;
 		}
 	}
-	
+
 	public void setSignal()
 	{
 		synchronized(m_monitorObject)

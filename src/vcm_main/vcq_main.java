@@ -13,7 +13,7 @@ public class vcq_main
 	static Runnable vr;
 	public static void main(String[] args) 
     {  
-        	System.out.println("Version 1.4.78");
+        	System.out.println("Version 1.4.82");
         	
         	VR_WorkMode workMode = VR_WorkMode.PRINT;
         	String currentWorkingDir = "";
@@ -27,7 +27,7 @@ public class vcq_main
             else if(args.length == 1)
             {
             	currentWorkingDir = args[0] + "\\Config\\VCQ.config.xml";
-            	workMode = VR_WorkMode.PULL_AND_PRINT;
+            	workMode = VR_WorkMode.PULL;
             } 
             else
             {

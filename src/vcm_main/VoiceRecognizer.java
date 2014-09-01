@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import vcm_main.MySignal;
+
+
 public class VoiceRecognizer implements Runnable
 {
 	public enum VR_WorkMode
@@ -21,12 +24,15 @@ public class VoiceRecognizer implements Runnable
 	public VoiceRecognizer(VR_WorkMode workMode)
 	{
 		m_initialized = false;
-		m_workMode = workMode; 
+		m_workMode = workMode;
+		m_lastCommand = -1;
+		m_lastCommand_signal = new MySignal(false,true); 
 	}
 	public void Init(String CurrentWorkingDir)
 	{
 		try 
-        {       	
+        {   
+			
         	// Initialization         	
             URL url = new File(CurrentWorkingDir).toURI().toURL();           
             ConfigurationManager cm = new ConfigurationManager(url);	System.out.println("ConfigurationManager cm has initialized");
@@ -34,7 +40,7 @@ public class VoiceRecognizer implements Runnable
 	        m_microphone = (Microphone) cm.lookup("microphone");   		System.out.println("Microphone microphone has initialized");
 	        m_recognizer.allocate();	         						System.out.println("recognizer necessary resources allocated");
 			
-			/* the microphone will keep recording until the program exits */
+			// the microphone will keep recording until the program exits 
 			if (!StartRecording(m_microphone)){
 				return;
 			}
@@ -55,7 +61,7 @@ public class VoiceRecognizer implements Runnable
 	}
 	@Override
 	public void run() 
-	{	
+	{
 		if(m_initialized)
 		{
 			while (true) 
@@ -90,6 +96,8 @@ public class VoiceRecognizer implements Runnable
 			}
 			StopRecording(m_microphone);
 			m_recognizer.deallocate();
+			m_lastCommand = 0;
+			m_lastCommand_signal.setSignal();
 			System.out.println("Bye Bye.\n");
 		}
 		else
@@ -99,9 +107,10 @@ public class VoiceRecognizer implements Runnable
 	}
 	public int GetLastVoiceCommand()
 	{
+		m_lastCommand_signal.WaitForSignal();
 		return m_lastCommand;
 	}
-	
+
 	// Private methods	
 	private boolean StartRecording(Microphone mic)
 	{
@@ -141,10 +150,14 @@ public class VoiceRecognizer implements Runnable
 		{
 			if(wordList[1].equals("up")){
 				// Handle fly up command
+				m_lastCommand = 1;
+				m_lastCommand_signal.setSignal();
 				return true;
 			}
 			else if(wordList[1].equals("down")){
 				// Handle Fly Down command
+				m_lastCommand = 2;
+				m_lastCommand_signal.setSignal();
 				return true;
 			}
 		}
@@ -161,5 +174,5 @@ public class VoiceRecognizer implements Runnable
 	private boolean m_initialized;
 	private VR_WorkMode m_workMode;
 	private int m_lastCommand; 
-
+	private MySignal m_lastCommand_signal;
 }
