@@ -1,4 +1,5 @@
 
+
 % Z.k.
 
 clc         % Clear screen
@@ -16,12 +17,17 @@ obj.main(currentWorkingDir);
 
 bToContinue = true;
 while bToContinue
+   
+   tic;
    command = obj.GetLastCommand();
+   
    if command == 1
         fprintf('command(%i) fly up\n',command);
+        toc;
    end
    if command == 2
         fprintf('command(%i) fly down\n',command);
+        toc;
    end
    if command == 0
         fprintf('command(%i) turn off\n',command);
