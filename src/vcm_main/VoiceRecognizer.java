@@ -22,11 +22,11 @@ public class VoiceRecognizer implements Runnable
 	
 	public enum quadqopterCommand
 	{
-		TRUN_OFF(0),
+		TURN_OFF(0),
 		FLY_UP(1),
 		FLY_DOWN(2),
 		FLY_FORWARD(3),
-		FLY_BACKWARD(4),
+		FLY_REVERSE(4),
 		FLY_RIGHT(5),
 		FLY_LEFT(6);
 					
@@ -164,7 +164,7 @@ public class VoiceRecognizer implements Runnable
 	}
 	private void printGrammar()
 	{
-		System.out.println("Grammar:    ( fly ) ( up | down | forward | backward | right | left ) " + 
+		System.out.println("Grammar:    ( fly ) ( up | down | forward | reverse | right | left ) " + 
 						  "\n\t OR ( turn off ) ");
 	}
 	private boolean HandleIncomingCommand(String inString)
@@ -200,8 +200,8 @@ public class VoiceRecognizer implements Runnable
 				}
 				return true;
 			}
-			else if(wordList[1].equals("backword")){ 				
-				m_lastCommand = quadqopterCommand.FLY_BACKWARD.GetId();
+			else if(wordList[1].equals("reverse")){ 				
+				m_lastCommand = quadqopterCommand.FLY_REVERSE.GetId();
 				if(VR_WorkMode.PRINT == m_workMode)
 				{
 					m_lastCommand_signal.setSignal();
@@ -227,6 +227,7 @@ public class VoiceRecognizer implements Runnable
 		}
 		if(wordList[0].equals("turn") && wordList[1].equals("off"))
 		{
+			m_lastCommand = quadqopterCommand.TURN_OFF.GetId();
 			return false;
 		}
 		return true;

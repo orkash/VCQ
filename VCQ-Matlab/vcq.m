@@ -38,7 +38,7 @@ while bToContinue
         toc;
    end
    if command == 4
-        fprintf('command(%i) fly backward\n',command);
+        fprintf('command(%i) fly reverse\n',command);
         toc;
    end
    if command == 5

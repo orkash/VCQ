@@ -13,7 +13,7 @@ public class vcq_main
 	static Runnable vr;
 	public static void main(String[] args) 
     {  
-        	System.out.println("Version 1.5.19");
+        	System.out.println("Version 1.5.22");
         	
         	VR_WorkMode workMode = VR_WorkMode.PRINT;
         	String currentWorkingDir = "";
