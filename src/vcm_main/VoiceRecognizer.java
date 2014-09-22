@@ -107,8 +107,21 @@ public class VoiceRecognizer implements Runnable
 	}
 	public int GetLastVoiceCommand()
 	{
-		m_lastCommand_signal.WaitForSignal();
-		return m_lastCommand;
+		if(VR_WorkMode.PRINT == m_workMode)
+		{
+			m_lastCommand_signal.WaitForSignal();
+			return m_lastCommand;
+		}
+		else if(VR_WorkMode.PULL == m_workMode)
+		{
+			int lc = m_lastCommand;
+			m_lastCommand = 100;
+			return lc;
+		}
+		else
+		{
+			return 100;
+		}		
 	}
 
 	// Private methods	
@@ -151,13 +164,19 @@ public class VoiceRecognizer implements Runnable
 			if(wordList[1].equals("up")){
 				// Handle fly up command
 				m_lastCommand = 1;
-				m_lastCommand_signal.setSignal();
+				if(VR_WorkMode.PRINT == m_workMode)
+				{
+					m_lastCommand_signal.setSignal();
+				}
 				return true;
 			}
 			else if(wordList[1].equals("down")){
 				// Handle Fly Down command
 				m_lastCommand = 2;
-				m_lastCommand_signal.setSignal();
+				if(VR_WorkMode.PRINT == m_workMode)
+				{
+					m_lastCommand_signal.setSignal();
+				}
 				return true;
 			}
 		}
