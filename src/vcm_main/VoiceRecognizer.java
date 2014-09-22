@@ -20,6 +20,22 @@ public class VoiceRecognizer implements Runnable
 	    PRINT,PULL,PULL_AND_PRINT 
 	}
 	
+	public enum quadqopterCommand
+	{
+		TRUN_OFF(0),
+		FLY_UP(1),
+		FLY_DOWN(2),
+		FLY_FORWARD(3),
+		FLY_BACKWARD(4),
+		FLY_RIGHT(5),
+		FLY_LEFT(6);
+					
+		quadqopterCommand(int id) { m_id = id; }
+		
+		private int m_id;
+		public int GetId() { return m_id; }	
+	}
+	
 	// Public methods
 	public VoiceRecognizer(VR_WorkMode workMode)
 	{
@@ -148,9 +164,8 @@ public class VoiceRecognizer implements Runnable
 	}
 	private void printGrammar()
 	{
-		System.out.println("Grammar:    ( fly ) ( up | down | forward | backward ) " + 
-						  "\n\t OR ( turn ) ( left | right ) " + 
-						  "\n\t OR ( fire ) ( missile | bullets )");
+		System.out.println("Grammar:    ( fly ) ( up | down | forward | backward | right | left ) " + 
+						  "\n\t OR ( turn off ) ");
 	}
 	private boolean HandleIncomingCommand(String inString)
 	{	
@@ -162,8 +177,7 @@ public class VoiceRecognizer implements Runnable
 		if(wordList[0].equals("fly"))
 		{
 			if(wordList[1].equals("up")){
-				// Handle fly up command
-				m_lastCommand = 1;
+				m_lastCommand = quadqopterCommand.FLY_UP.GetId();
 				if(VR_WorkMode.PRINT == m_workMode)
 				{
 					m_lastCommand_signal.setSignal();
@@ -171,8 +185,39 @@ public class VoiceRecognizer implements Runnable
 				return true;
 			}
 			else if(wordList[1].equals("down")){
-				// Handle Fly Down command
-				m_lastCommand = 2;
+				m_lastCommand = quadqopterCommand.FLY_DOWN.GetId();
+				if(VR_WorkMode.PRINT == m_workMode)
+				{
+					m_lastCommand_signal.setSignal();
+				}
+				return true;
+			}
+			else if(wordList[1].equals("forward")){ 				
+				m_lastCommand = quadqopterCommand.FLY_FORWARD.GetId();
+				if(VR_WorkMode.PRINT == m_workMode)
+				{
+					m_lastCommand_signal.setSignal();
+				}
+				return true;
+			}
+			else if(wordList[1].equals("backword")){ 				
+				m_lastCommand = quadqopterCommand.FLY_BACKWARD.GetId();
+				if(VR_WorkMode.PRINT == m_workMode)
+				{
+					m_lastCommand_signal.setSignal();
+				}
+				return true;
+			}
+			else if(wordList[1].equals("right")){ 				
+				m_lastCommand = quadqopterCommand.FLY_RIGHT.GetId();
+				if(VR_WorkMode.PRINT == m_workMode)
+				{
+					m_lastCommand_signal.setSignal();
+				}
+				return true;
+			}
+			else if(wordList[1].equals("left")){ 				
+				m_lastCommand = quadqopterCommand.FLY_LEFT.GetId();
 				if(VR_WorkMode.PRINT == m_workMode)
 				{
 					m_lastCommand_signal.setSignal();
